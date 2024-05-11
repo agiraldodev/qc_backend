@@ -9,7 +9,8 @@ class Usuario extends Model {
   primerNombre: string;
 
   @Column( { type: DataType.STRING(100) })
-  numDocumento: string
+  numDocumento: string;
+
 }
 
 export default Usuario;
