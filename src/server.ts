@@ -17,6 +17,8 @@ conectarDB()
 
 const servidor = express();
 
+servidor.use(express.json())
+
 servidor.use('/api/v1', router);
 
 export default servidor;

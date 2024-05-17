@@ -1,10 +1,9 @@
 import { Router } from "express";
+import { mostrarRoles, crearRole } from "./controllers/Role.controller";
 
 const router = Router();
 
-// Armar las rutas
-router.get("/crear-cuenta", (req, res) => {
-  res.send("Pantalla para crear cuenta");
-})
+router.get('/roles', mostrarRoles)
+router.post('/roles', crearRole )
 
 export default router;
