@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Usuario from "../models/Usuario.model";
+import { validationResult } from 'express-validator';
 
 // Método para traer todos los usuarios de la tabla Usuario
 export const mostrarUsuarios = async (req: Request, res: Response) => {
@@ -14,6 +15,23 @@ export const mostrarUsuarios = async (req: Request, res: Response) => {
   
   // Método para insertar un nuevo usuario
   export const crearUsuario = async (req: Request, res: Response) => {
+
+    // Validar los datos de entrada
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Verificar si ya existe un usuario con el mismo correo electrónico o número de documento
+    const { correo, numDocumento } = req.body;
+    const existingUsuario = await Usuario.findOne({ where: { correo } });
+    if (existingUsuario) {
+      return res.status(400).json({ error: 'El correo electrónico ya está registrado' });
+    }
+    const existingDocumento = await Usuario.findOne({ where: { numDocumento } });
+    if (existingDocumento) {
+      return res.status(400).json({ error: 'El número de documento ya está registrado' });
+    }
   
     try {
       const nuevoUsuario = await Usuario.create(req.body);
