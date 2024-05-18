@@ -10,7 +10,6 @@ export const mostrarRoles = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error)
   }
-
 }
 
 // Método para insertar un nuevo role
@@ -22,7 +21,6 @@ export const crearRole = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
   }
-
 }
 
 // Método para mostrar el rol solo por su ID
@@ -43,6 +41,23 @@ export const obtenerRolPorId = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error)
   }
+}
+
+// Actualizar un role
+export const actualizarRole = async (req: Request, res: Response) => {
+  const { id } = req.params
+  const role = await Role.findByPk(id)
+
+  if(!role) {
+      return res.status(404).json({
+          error: 'Role no encontrado'
+      })
+  }
+  
+  // Actualizar el rle
+  await role.update(req.body)
+  await role.save()
+  res.json({data: role})
 }
 
 // Método para eliminar el rol por su ID
