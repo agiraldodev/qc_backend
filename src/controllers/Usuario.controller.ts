@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Usuario from "../models/Usuario.model";
-import { validationResult } from 'express-validator';
+import { body, validationResult } from 'express-validator';
+import { TipoDocumento } from "../models/Usuario.model";
 
 // Método para traer todos los usuarios de la tabla Usuario
 export const mostrarUsuarios = async (req: Request, res: Response) => {
@@ -92,3 +93,25 @@ export const obtenerUsuarioPorId = async (req: Request, res: Response) => {
     await usuario.destroy()
     res.json({ data: 'El usuario fue eliminado satisfactoriamente' })
   }
+
+  export const validateUsuario = [
+    body('tipoDocumento').isIn(Object.values(TipoDocumento)),
+    body('numDocumento').isString().notEmpty(),
+    body('primerNombre').isString().isLength({ min: 3 }),
+    body('segundoNombre').isString().optional(),
+    body('primerApellido').isString().isLength({ min: 3 }),
+    body('segundoApellido').isString().optional(),
+    body('fechaNacimiento').isDate(),
+    body('telefono').isString().notEmpty(),
+    body('correo').isEmail(),
+    body('clave').isString().isLength({ min: 4 }),
+    body('direccion').isString().notEmpty(),
+    body('rolId').isInt().notEmpty(),
+    (req, res, next) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      next();
+    },
+  ];

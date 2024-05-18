@@ -3,7 +3,7 @@ import { mostrarRoles, crearRole, obtenerRolPorId, borrarRol, actualizarRole } f
 import { mostrarUsuarios, crearUsuario, actualizarUsuario, obtenerUsuarioPorId, borrarUsuario} from './controllers/Usuario.controller'
 import { mostrarAulas, crearAula, actualizarAula, obtenerAulaPorId, borrarAula} from './controllers/Aula.controller'
 import { mostrarAsistencias, crearAsistencia, actualizarAsistencia, obtenerAsistenciaPorId, borrarAsistencia} from './controllers/Asistencias.controller'
-import { validateUsuario } from "./models/Usuario.model";
+import { validateUsuario } from "./controllers/Usuario.controller";
 
 
 const router = Router();
