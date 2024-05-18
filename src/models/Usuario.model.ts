@@ -1,4 +1,6 @@
-import { Table, Column, Model, DataType } from "sequelize-typescript";
+import { Table, Column, Model, DataType, ForeignKey, BelongsTo, HasMany } from "sequelize-typescript";
+import Role from "./Role.model";
+import Aula from "./Aula.model";
 
 
 enum TipoDocumento {
@@ -44,6 +46,15 @@ class Usuario extends Model {
   @Column({ type: DataType.STRING(100) })
   direccion: string;
 
+  @ForeignKey(() => Role)
+  @Column({type: DataType.INTEGER})
+  rolId: number
+
+  @BelongsTo(() => Role)
+  rol: Role
+
+  @HasMany (() => Aula)
+  aula: Aula[];
 }
 
 export default Usuario;
