@@ -1,6 +1,8 @@
-import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from "sequelize-typescript";
-
-enum tipoDocumento {
+import { Table, Column, Model, DataType, ForeignKey, BelongsTo, HasMany } from "sequelize-typescript";
+import Role from "./Role.model";
+import Aula from "./Aula.model";
+import {validationResult } from 'express-validator';
+export enum TipoDocumento {
   RC = 'rc',
   TI = 'ti',
   CC = 'cc'
@@ -11,27 +13,27 @@ enum tipoDocumento {
 })
 
 class Usuario extends Model {
-  @Column( { type: DataType.ENUM(...Object.values(tipoDocumento)) })
-  tipoDocumento: tipoDocumento;
+  @Column({ type: DataType.ENUM(...Object.values(TipoDocumento)) })
+  tipoDocumento: TipoDocumento;
 
-  @Column( { type: DataType.STRING(100) })
+  @Column({ type: DataType.STRING(100) })
   numDocumento: string;
 
   @Column({ type: DataType.STRING(100) })
   primerNombre: string;
-  
+
   @Column({ type: DataType.STRING(100) })
   segundoNombre: string;
 
   @Column({ type: DataType.STRING(100) })
   primerApellido: string;
-  
+
   @Column({ type: DataType.STRING(100) })
   segundoApellido: string;
 
   @Column({ type: DataType.DATE() })
   fechaNacimiento: Date;
-  
+
   @Column({ type: DataType.STRING(100) })
   telefono: string;
 
@@ -43,6 +45,16 @@ class Usuario extends Model {
 
   @Column({ type: DataType.STRING(100) })
   direccion: string;
+
+  @ForeignKey(() => Role)
+  @Column({type: DataType.INTEGER})
+  rolId: number
+
+  @BelongsTo(() => Role)
+  rol: Role
+
+  @HasMany (() => Aula)
+  aula: Aula[];
 }
 
 export default Usuario;
