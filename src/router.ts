@@ -32,6 +32,4 @@ router.get('/asistencias/:id',  obtenerAsistenciaPorId)
 router.delete('/asistencias/:id', borrarAsistencia)
 router.put('/asistencias/:id', actualizarAsistencia)
 
-
-
 export default router;
